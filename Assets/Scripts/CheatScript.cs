@@ -7,7 +7,7 @@ public class CheatScript : MonoBehaviour
     public bool cheatOn;
     public SlotType[] SlotWillAppear = new SlotType[3];
     private int[] cheatStep = new int[3];
-    public Rows[] rows = new Rows[3];
+    public TestRow[] rows = new TestRow[3];
 
     // Update is called once per frame
     void Update()
@@ -21,7 +21,7 @@ public class CheatScript : MonoBehaviour
         {
             for (int i = 0; i < rows.Length; i++)
             {
-                int n = SlotWillAppear[i] - rows[i].resultSlot;
+                int n = SlotWillAppear[i] - rows[i].secondSlot;
 
                 if (n == 2 || n == -2)
                     cheatStep[i] = 2;

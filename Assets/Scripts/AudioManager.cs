@@ -5,9 +5,10 @@ using UnityEngine.Audio;
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
+    public AudioSource winningSound;
     // Start is called before the first frame update
     void Awake()
-    {
+    {   
         foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
@@ -19,8 +20,10 @@ public class AudioManager : MonoBehaviour
     }
 
 
+
     public void AudioPause()
     {
+        winningSound.Pause();
         foreach (Sound s in sounds)
         {
             s.source.Pause();
@@ -29,6 +32,7 @@ public class AudioManager : MonoBehaviour
 
     public void AudioResume()
     {
+        winningSound.UnPause();
         foreach (Sound s in sounds)
         {
             s.source.UnPause();
@@ -44,7 +48,12 @@ public class AudioManager : MonoBehaviour
             return;
         }
         s.source.Play();
-        
+    }
+
+    public void Play(AudioClip audio)
+    {
+        winningSound.clip = audio;
+        winningSound.Play();
     }
 
     public void Stop(string name)

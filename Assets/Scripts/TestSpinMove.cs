@@ -1,38 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-
-public enum SlotType
-{ JackpotFace, Swim, BuggerOff, Masturbate  }
-
-public class Movements : MonoBehaviour
+public class TestSpinMove : MonoBehaviour
 {
+    
+    private TestRow row;
     private float timeInterval;
-    private Rows row;
 
-   
     void Start()
     {
-        row = GetComponentInParent<Rows>();
-
+        row = GetComponentInParent<TestRow>();
+       // timeInterval = row.timeInterval;
     }
 
     public void StartMovement()
     {
 
         row.movementStopped = false;
-        timeInterval = 0.003f;
+
         StartCoroutine(Spining());
     }
 
     private IEnumerator Spining()
     {
-        //yield return new WaitForEndOfFrame();
+        timeInterval = row.timeInterval;
+        yield return new WaitForEndOfFrame();
 
         for (int i = 0; i < 16 + row.steps; i++)
-            {
+        {
             for (int j = 0; j < 9; j++)
             {
                 //yield return new WaitForSeconds(timeInterval);
@@ -43,10 +39,10 @@ public class Movements : MonoBehaviour
                     transform.position = new Vector2(transform.position.x, transform.position.y + 9f);
             }
 
-        
 
-            if (i > (12 + row.steps) )
-            { timeInterval += 0.003f; }
+
+            if (i > (12 + row.steps))
+            { timeInterval += row.timeSlowdown; }
         }
 
         row.movementStopped = true;

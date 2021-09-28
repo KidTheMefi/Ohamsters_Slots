@@ -34,7 +34,7 @@ public class Movements : MonoBehaviour
     {
         //yield return new WaitForEndOfFrame();
 
-        for (int i = 0; i < 20 + row.steps; i++)
+        for (int i = 0; i < 16 + row.steps; i++)
             {
             for (int j = 0; j < 9; j++)
             {
@@ -48,7 +48,7 @@ public class Movements : MonoBehaviour
 
         
 
-            if (i > (16 + row.steps) )
+            if (i > (12 + row.steps) )
             { timeInterval += 0.003f; }
         }
 

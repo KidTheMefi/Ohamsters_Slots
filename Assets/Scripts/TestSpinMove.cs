@@ -4,49 +4,57 @@ using UnityEngine;
 
 public class TestSpinMove : MonoBehaviour
 {
-    
+
     private TestRow row;
-    private float timeInterval;
+    private TestSlotPosition slot;
+    private Vector3 targetPosition;
+    private float rotatingSpeed;
+    private int sumSteps;
 
     void Start()
     {
         row = GetComponentInParent<TestRow>();
-       // timeInterval = row.timeInterval;
+        slot = GetComponentInParent<TestSlotPosition>();
+
     }
 
     public void StartMovement()
     {
-
         row.movementStopped = false;
-
         StartCoroutine(Spining());
+        rotatingSpeed = slot.rotatingSpeed;
     }
 
     private IEnumerator Spining()
     {
-        timeInterval = row.timeInterval;
+        sumSteps = slot.minRotationSteps + row.randomRotationSteps;
         yield return new WaitForEndOfFrame();
 
-        for (int i = 0; i < 16 + row.steps; i++)
+        for (int i = 0; i < sumSteps; i++)
         {
-            for (int j = 0; j < 9; j++)
-            {
-                //yield return new WaitForSeconds(timeInterval);
-                yield return new WaitForSecondsRealtime(timeInterval);
-                transform.position = new Vector2(transform.position.x, transform.position.y - 0.25f);
+            targetPosition = transform.position + Vector3.down * slot.distanceBetweenPositionY;
 
-                if (transform.position.y <= -4.3f)
-                    transform.position = new Vector2(transform.position.x, transform.position.y + 9f);
+            while (transform.position != targetPosition)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, rotatingSpeed * Time.deltaTime);
+                //rotatingSpeed = Mathf.MoveTowards(rotatingSpeed, 5, 5 * Time.deltaTime);
+                yield return new WaitForSeconds(Time.deltaTime);
+                if (i > (sumSteps - slot.stepsToStop))
+                {
+                    rotatingSpeed = Mathf.MoveTowards(rotatingSpeed, 5, slot.deceleration*Time.deltaTime);
+                }
+            }
+            if (transform.position.y < slot.lowerPositionY)
+            {
+                transform.position = new Vector2(transform.position.x, transform.position.y + 4 * slot.distanceBetweenPositionY);              
             }
 
-
-
-            if (i > (12 + row.steps))
-            { timeInterval += row.timeSlowdown; }
+            /*if (i > (slot.minRotationSteps * 0.75 + row.randomRotationSteps))
+            {
+                slot.rotatingSpeed = slot.rotatingSpeed * 0.9f;
+            }*/
         }
-
         row.movementStopped = true;
-
     }
 
 }

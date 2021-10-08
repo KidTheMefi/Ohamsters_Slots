@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class TestRow : MonoBehaviour
 {
-    public int steps;
-    public bool movementStopped;
-
-    public float timeInterval;
-    [Range (0.001f, 0.01f)] public float timeSlowdown; 
-
+    public int randomRotationSteps;
+   
     public SlotType firstSlot;
     public SlotType secondSlot;
     public SlotType thirdSlot;
 
     public bool cheatOn;
     public int cheatSteps = 0;
+
+    public bool movementStopped;
 
     private TestSpinMove[] slotsInRow;
 
@@ -29,19 +27,18 @@ public class TestRow : MonoBehaviour
     }
     public void StartSpinning()
     {
-        steps = Random.Range(4, 7);
+        randomRotationSteps = Random.Range(4, 7);
 
         if (cheatOn)
-        { steps = cheatSteps; }
+        { randomRotationSteps = cheatSteps; }
 
         foreach (TestSpinMove M in slotsInRow)
         {
             M.StartMovement();
         }
 
-       
 
-        secondSlot -= steps % 4;
+        secondSlot -= randomRotationSteps % 4;
         if ((int)secondSlot < 0)
             secondSlot += 4;
 

@@ -8,14 +8,14 @@ public class AudioManager : MonoBehaviour
     public AudioSource winningSound;
     // Start is called before the first frame update
     void Awake()
-    {   
+    {
         foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
             s.source.volume = s.volume;
             s.source.loop = s.loop;
-            s.source.outputAudioMixerGroup = s.audioMixer;           
+            s.source.outputAudioMixerGroup = s.audioMixer;
         }
     }
 
@@ -41,7 +41,18 @@ public class AudioManager : MonoBehaviour
 
     public void PlayLose()
     {
-       Play("Nothing");
+        Play("Nothing");
+    }
+
+    public void PlaySpin()
+    {
+        Play("Spinning");
+        Play("Pull");
+    }
+
+    public void StopSpinning()
+    {
+        Stop("Spinning");
     }
 
     public void Play(string name)

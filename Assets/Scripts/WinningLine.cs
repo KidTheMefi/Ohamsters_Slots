@@ -13,7 +13,6 @@ public class WinningLine : MonoBehaviour
     private void Start()
     {
         winSprite = GetComponent<SpriteRenderer>();
-        
         //WinSmth(); 
     }
 

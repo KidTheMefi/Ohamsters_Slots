@@ -1597,7 +1597,7 @@ RectTransform:
   - {fileID: 1702097586}
   - {fileID: 1457983628}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6677,7 +6677,7 @@ Transform:
   m_LocalScale: {x: 0.63058245, y: 0.6416, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &550134849
 GameObject:
@@ -7199,7 +7199,7 @@ Transform:
   m_LocalScale: {x: 0.6268352, y: 0.6380389, z: 0.62941587}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &699830011
 GameObject:
@@ -13082,7 +13082,7 @@ Transform:
   m_LocalScale: {x: 0.6287854, y: 0.6287854, z: 0.6287854}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &973358173
 GameObject:
@@ -18688,6 +18688,7 @@ GameObject:
   - component: {fileID: 1109333263}
   - component: {fileID: 1109333260}
   - component: {fileID: 1109333262}
+  - component: {fileID: 1109333265}
   - component: {fileID: 1109333261}
   m_Layer: 0
   m_Name: GameController
@@ -18737,21 +18738,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e383a17cd41537142b121002a9225844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prizeImage: {fileID: 1272554402}
-  prizeText: {fileID: 2119077630}
   handle: {fileID: 700032639}
   rows:
   - {fileID: 758034534}
   - {fileID: 90251153}
   - {fileID: 2044246073}
-  totalPointsText: {fileID: 786580145}
-  highScoreText: {fileID: 138042427}
   winningLine:
   - {fileID: 1412879805}
   - {fileID: 1803119734}
   - {fileID: 338480527}
   audioManager: {fileID: 1763338313}
-  PullImage: {fileID: 1832187815}
   slotData:
   - slotType: 0
     clip: {fileID: 8300000, guid: 100f2b1c1e814c245b0f2e2ee6bb57a6, type: 3}
@@ -18774,7 +18770,7 @@ MonoBehaviour:
     particleSprite: {fileID: 21300000, guid: c6e7a3df5aee58b49b7a603716b663c0, type: 3}
     winningText: "\u0414\u0440\u043E\u0447\u0438\u043B\u0438"
     points: 300
-  secondBeforeNextSpin: 2
+  secondsBeforeNextSpin: 0
 --- !u!212 &1109333263
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -18841,6 +18837,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1109333265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1109333259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81326e1daaa54434292ad0228fb1654b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prizeImage: {fileID: 1272554402}
+  prizeText: {fileID: 2119077630}
+  totalPointsText: {fileID: 786580145}
+  highScoreText: {fileID: 138042427}
+  pullImage: {fileID: 1832187815}
 --- !u!1 &1119817825
 GameObject:
   m_ObjectHideFlags: 0
@@ -18921,7 +18934,7 @@ Transform:
   m_LocalScale: {x: 1.2445891, y: 1.290911, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1125837935
 GameObject:
@@ -19508,7 +19521,7 @@ RectTransform:
   m_Children:
   - {fileID: 941885723}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -19645,7 +19658,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1408051178
 GameObject:
@@ -25025,7 +25038,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1440925707
 GameObject:
@@ -26439,8 +26452,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1109333262}
-        m_TargetAssemblyTypeName: TestGameControler, Assembly-CSharp
+      - m_Target: {fileID: 1109333265}
+        m_TargetAssemblyTypeName: GameDisplay, Assembly-CSharp
         m_MethodName: ResetHighScore
         m_Mode: 1
         m_Arguments:

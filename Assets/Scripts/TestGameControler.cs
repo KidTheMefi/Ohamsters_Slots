@@ -2,41 +2,34 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
+public enum SlotType
+{ JackpotFace, Swim, BuggerOff, Masturbate }
 
 public class TestGameControler : MonoBehaviour
 {
 
-    [SerializeField] private GameObject prizeImage;
-    [SerializeField] private Text prizeText;
     [SerializeField] private Transform handle;
     [SerializeField] private TestRow[] rows;
-    [SerializeField] private Text totalPointsText;
-    [SerializeField] private Text highScoreText;
     [SerializeField] private WinningLine[] winningLine;
     [SerializeField] private AudioManager audioManager;
-    [SerializeField] private GameObject PullImage;
     
     public List<SlotData> slotData = new List<SlotData>();
     public int secondsBeforeNextSpin;
-    private int stoppedCount;
 
+    private int stoppedCount;
     private bool canSpin;
     private TestParticleSystem particlesForWin;
-    private int totalPoints; 
-    bool isWin = false;
+    private GameDisplay gameDisplay;
+    private bool isWin = false;
+
     // Start is called before the first frame update
     void Start()
     {
         TestSpinMove.MovementStop += StopCheck;
         particlesForWin = GetComponent<TestParticleSystem>();
-        totalPoints = 0;
-        totalPointsText.text = "Total points:" + "\n" + totalPoints;
-        highScoreText.text = "HighScore" + "\n" + PlayerPrefs.GetInt("HighScore", 0);
-        PullImage.SetActive(true);
+        gameDisplay = GetComponent<GameDisplay>();
         canSpin = true;
-        
-
     }
 
     private void OnDestroy()
@@ -51,7 +44,7 @@ public class TestGameControler : MonoBehaviour
 
     private void MovementStoped()
     {
-        audioManager.Stop("Spinning");
+        audioManager.StopSpinning();
         secondsBeforeNextSpin = 4;
         isWin = false;
 
@@ -73,9 +66,8 @@ public class TestGameControler : MonoBehaviour
         if (!isWin)
         {
             secondsBeforeNextSpin = 2;
-            audioManager.PlayLose();           
-            prizeText.text = "Удача не на твоей стороне..." + "\n" + "Поцелуй ирландца!";
-            prizeImage.SetActive(true);
+            audioManager.PlayLose();
+            gameDisplay.Lose();
         }
         StartCoroutine(WaitingForSpin(secondsBeforeNextSpin));
     }
@@ -83,7 +75,7 @@ public class TestGameControler : MonoBehaviour
     private IEnumerator WaitingForSpin(float s)
     {
         yield return new WaitForSeconds(s);
-        PullImage.SetActive(true);
+        gameDisplay.CanSpin();
         canSpin = true;
 
     }
@@ -97,17 +89,13 @@ public class TestGameControler : MonoBehaviour
             {
                 if (S.slotType == slot1)
                 {
-                    prizeText.text = S.winningText + "\n " + S.points + " points"; ;
-                    particlesForWin.StartBoom(S.particleSprite);
-
+                    gameDisplay.Win(S);
+                    audioManager.Play(S.clip);
+                    particlesForWin.StartBoom(S.particleSprite);        
                     if (slot1 != SlotType.BuggerOff)
-                    { particlesForWin.StartBoom(); } 
-
-                    AddPoints(S.points);
-                    audioManager.Play(S.clip);         
+                    { particlesForWin.StartBoom(); }    
                 }
-            }
-            prizeImage.SetActive(true);          
+            }        
             isWin = true;
             return true;
         }
@@ -122,7 +110,7 @@ public class TestGameControler : MonoBehaviour
             stoppedCount = 0;
             StartCoroutine(PullHandle());
             StartCoroutine(StartSpinning());
-            prizeImage.SetActive(false);
+            gameDisplay.Hide();
         }
     }
 
@@ -140,16 +128,12 @@ public class TestGameControler : MonoBehaviour
             R.StartSpinning();
             yield return new WaitForSeconds(0.5f);
         }
-
     }
 
     private IEnumerator PullHandle()
     {
-        audioManager.Play("Spinning");
-        audioManager.Play("Pull");
-        
-        PullImage.SetActive(false);
-        
+        audioManager.PlaySpin();
+
         foreach (WinningLine W in winningLine)
         { W.resultsChecked = false; }
 
@@ -166,22 +150,5 @@ public class TestGameControler : MonoBehaviour
         }
     }
 
-     private void AddPoints(int p)
-     {
-         totalPoints += p;
-         totalPointsText.text = "Your points:" + "\n" + totalPoints;
-
-         if (PlayerPrefs.GetInt("HighScore", 0) < totalPoints)
-         {
-             PlayerPrefs.SetInt("HighScore", totalPoints);
-             highScoreText.text = "HighScore" + "\n" + PlayerPrefs.GetInt("HighScore", 0);
-         }
-     }
-
-     public void ResetHighScore()
-     {
-         PlayerPrefs.DeleteKey("HighScore");
-         highScoreText.text = "HighScore" + "\n" + 0;
-     }
 }
 

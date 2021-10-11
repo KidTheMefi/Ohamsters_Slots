@@ -39,6 +39,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayLose()
+    {
+       Play("Nothing");
+    }
+
     public void Play(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -68,8 +73,5 @@ public class AudioManager : MonoBehaviour
         Debug.Log("Sound " + name + "  found!");
         s.source.Stop();
         s.source.Pause();
-
     }
-
-
 }

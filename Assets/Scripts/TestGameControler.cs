@@ -18,13 +18,12 @@ public class TestGameControler : MonoBehaviour
     [SerializeField] private GameObject PullImage;
     
     public List<SlotData> slotData = new List<SlotData>();
-    public int secondBeforeNextSpin;
+    public int secondsBeforeNextSpin;
     private int stoppedCount;
 
     private bool canSpin;
     private TestParticleSystem particlesForWin;
-    private int totalPoints;
-    private bool resultsChecked = true;
+    private int totalPoints; 
     bool isWin = false;
     // Start is called before the first frame update
     void Start()
@@ -40,6 +39,10 @@ public class TestGameControler : MonoBehaviour
 
     }
 
+    private void OnDestroy()
+    {
+        TestSpinMove.MovementStop -= StopCheck;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -49,7 +52,7 @@ public class TestGameControler : MonoBehaviour
     private void MovementStoped()
     {
         audioManager.Stop("Spinning");
-        secondBeforeNextSpin = 4;
+        secondsBeforeNextSpin = 4;
         isWin = false;
 
         if (ResultsCheck(rows[0].secondSlot, rows[1].secondSlot, rows[2].secondSlot))
@@ -69,13 +72,12 @@ public class TestGameControler : MonoBehaviour
 
         if (!isWin)
         {
-            secondBeforeNextSpin = 2;
-            audioManager.Play("Nothing");
+            secondsBeforeNextSpin = 2;
+            audioManager.PlayLose();           
             prizeText.text = "Удача не на твоей стороне..." + "\n" + "Поцелуй ирландца!";
             prizeImage.SetActive(true);
         }
-        StartCoroutine(WaitingForSpin(secondBeforeNextSpin));
-        resultsChecked = true;
+        StartCoroutine(WaitingForSpin(secondsBeforeNextSpin));
     }
 
     private IEnumerator WaitingForSpin(float s)
@@ -114,7 +116,6 @@ public class TestGameControler : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("Click");
         if (canSpin == true)
         {
             canSpin = false;
@@ -122,8 +123,6 @@ public class TestGameControler : MonoBehaviour
             StartCoroutine(PullHandle());
             StartCoroutine(StartSpinning());
             prizeImage.SetActive(false);
-            resultsChecked = false;
-
         }
     }
 

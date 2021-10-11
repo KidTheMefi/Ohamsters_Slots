@@ -16,8 +16,10 @@ public class TestGameControler : MonoBehaviour
     [SerializeField] private WinningLine[] winningLine;
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private GameObject PullImage;
- 
+    
     public List<SlotData> slotData = new List<SlotData>();
+    public int secondBeforeNextSpin;
+    private int stoppedCount;
 
     private bool canSpin;
     private TestParticleSystem particlesForWin;
@@ -27,6 +29,7 @@ public class TestGameControler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        TestSpinMove.MovementStop += StopCheck;
         particlesForWin = GetComponent<TestParticleSystem>();
         totalPoints = 0;
         totalPointsText.text = "Total points:" + "\n" + totalPoints;
@@ -40,45 +43,39 @@ public class TestGameControler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!rows[0].movementStopped || !rows[1].movementStopped || !rows[2].movementStopped)
+
+    }
+
+    private void MovementStoped()
+    {
+        audioManager.Stop("Spinning");
+        secondBeforeNextSpin = 4;
+        isWin = false;
+
+        if (ResultsCheck(rows[0].secondSlot, rows[1].secondSlot, rows[2].secondSlot))
         {
-            prizeImage.SetActive(false);
-
-            resultsChecked = false;
+            winningLine[1].WinSmth();
         }
 
-        if (rows[0].movementStopped && rows[1].movementStopped && rows[2].movementStopped && !resultsChecked)
-        {           
-            audioManager.Stop("Spinning");
-            StartCoroutine(WaitingForSpin(4));
-            isWin = false;
-
-            
-            if (ResultsCheck(rows[0].secondSlot, rows[1].secondSlot, rows[2].secondSlot))
-            {
-                winningLine[1].WinSmth();
-            }
-
-            if(ResultsCheck(rows[0].firstSlot, rows[1].secondSlot, rows[2].thirdSlot))          
-            {
-                winningLine[0].WinSmth();      
-            }
-
-            if (ResultsCheck(rows[0].thirdSlot, rows[1].secondSlot, rows[2].firstSlot))
-            {
-                winningLine[2].WinSmth();            
-            }           
-
-            if (!isWin)
-            {
-                audioManager.Play("Nothing");
-                prizeText.text = "Удача не на твоей стороне..." + "\n" + "Поцелуй ирландца!";
-                prizeImage.SetActive(true);
-            }
-
-            resultsChecked = true;
+        if (ResultsCheck(rows[0].firstSlot, rows[1].secondSlot, rows[2].thirdSlot))
+        {
+            winningLine[0].WinSmth();
         }
 
+        if (ResultsCheck(rows[0].thirdSlot, rows[1].secondSlot, rows[2].firstSlot))
+        {
+            winningLine[2].WinSmth();
+        }
+
+        if (!isWin)
+        {
+            secondBeforeNextSpin = 2;
+            audioManager.Play("Nothing");
+            prizeText.text = "Удача не на твоей стороне..." + "\n" + "Поцелуй ирландца!";
+            prizeImage.SetActive(true);
+        }
+        StartCoroutine(WaitingForSpin(secondBeforeNextSpin));
+        resultsChecked = true;
     }
 
     private IEnumerator WaitingForSpin(float s)
@@ -118,13 +115,24 @@ public class TestGameControler : MonoBehaviour
     private void OnMouseDown()
     {
         Debug.Log("Click");
-        if (rows[0].movementStopped && rows[1].movementStopped && rows[2].movementStopped && canSpin == true)
+        if (canSpin == true)
         {
+            canSpin = false;
+            stoppedCount = 0;
             StartCoroutine(PullHandle());
             StartCoroutine(StartSpinning());
+            prizeImage.SetActive(false);
+            resultsChecked = false;
+
         }
     }
 
+    private void StopCheck()
+    {
+        stoppedCount++;
+        if (stoppedCount == 12)
+            MovementStoped();
+    }
 
     private IEnumerator StartSpinning()
 
@@ -140,7 +148,7 @@ public class TestGameControler : MonoBehaviour
     {
         audioManager.Play("Spinning");
         audioManager.Play("Pull");
-        canSpin = false;
+        
         PullImage.SetActive(false);
         
         foreach (WinningLine W in winningLine)

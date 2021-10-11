@@ -242,7 +242,6 @@ MonoBehaviour:
   thirdSlot: 0
   cheatOn: 0
   cheatSteps: 0
-  movementStopped: 0
 --- !u!212 &90251154
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12507,7 +12506,6 @@ MonoBehaviour:
   thirdSlot: 0
   cheatOn: 0
   cheatSteps: 0
-  movementStopped: 0
 --- !u!212 &758034535
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -18776,6 +18774,7 @@ MonoBehaviour:
     particleSprite: {fileID: 21300000, guid: c6e7a3df5aee58b49b7a603716b663c0, type: 3}
     winningText: "\u0414\u0440\u043E\u0447\u0438\u043B\u0438"
     points: 300
+  secondBeforeNextSpin: 2
 --- !u!212 &1109333263
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -27343,7 +27342,6 @@ MonoBehaviour:
   thirdSlot: 0
   cheatOn: 0
   cheatSteps: 0
-  movementStopped: 0
 --- !u!212 &2044246074
 SpriteRenderer:
   m_ObjectHideFlags: 0

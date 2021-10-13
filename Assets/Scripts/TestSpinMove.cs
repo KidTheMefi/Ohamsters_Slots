@@ -42,7 +42,7 @@ public class TestSpinMove : MonoBehaviour
                 yield return new WaitForSeconds(Time.deltaTime);
                 if (i > (sumSteps - slot.stepsToStop))
                 {
-                    rotatingSpeed = Mathf.MoveTowards(rotatingSpeed, 5, slot.deceleration*Time.deltaTime);
+                    rotatingSpeed = Mathf.MoveTowards(rotatingSpeed, 5, rotatingSpeed*rotatingSpeed/slot.deceleration * Time.deltaTime);
                 }
             }
 

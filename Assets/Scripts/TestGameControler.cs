@@ -41,7 +41,7 @@ public class TestGameControler : MonoBehaviour
     {
 
     }
-
+     
     private void MovementStoped()
     {
         audioManager.StopSpinning();

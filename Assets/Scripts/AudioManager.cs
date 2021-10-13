@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -6,6 +7,7 @@ public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
     public AudioSource winningSound;
+    public AudioSource backgroundMusic;
     // Start is called before the first frame update
     void Awake()
     {
@@ -17,6 +19,8 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
             s.source.outputAudioMixerGroup = s.audioMixer;
         }
+
+        backgroundMusic.Play();
     }
 
 
@@ -70,6 +74,18 @@ public class AudioManager : MonoBehaviour
     {
         winningSound.clip = audio;
         winningSound.Play();
+        StartCoroutine(winSoundPlaying());
+    }
+
+    private IEnumerator winSoundPlaying()
+    {
+        yield return new WaitForSeconds(0.1f);
+        backgroundMusic.mute = true;
+        while (winningSound.isPlaying)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        backgroundMusic.mute = false;
     }
 
     public void Stop(string name)

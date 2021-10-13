@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SettingsMenu : MonoBehaviour
 {
     public AudioMixer audioMixer;
-
+    [SerializeField] TestSlotPosition testSlotPosition;
     public Dropdown resolutionDropdown;
     public Toggle fullscreenToggle;
 
@@ -40,6 +40,11 @@ public class SettingsMenu : MonoBehaviour
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
+    }
+
+    public void SetSpeed(float speed)
+    {
+        testSlotPosition.rotatingSpeed = speed;
     }
 
     public void SetVolume(float volume)
